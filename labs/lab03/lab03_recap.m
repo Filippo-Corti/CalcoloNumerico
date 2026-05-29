@@ -1,14 +1,13 @@
 %% 1)
 clc;
 
-function y = identity(x)
-y = ((x+1)-1)/x;
-end
-
 identity(1e-08)
 identity(1e-12)
 identity(1e-14)
 
+function y = identity(x)
+y = ((x+1)-1)/x;
+end
 %% 2)
 clc;
 
