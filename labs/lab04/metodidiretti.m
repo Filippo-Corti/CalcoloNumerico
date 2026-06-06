@@ -142,6 +142,120 @@ toc
 
 matrixcmp(invA, invA2)
 
+%% 7)
+clc;
+
+% spy(A) mostra in un plot le posizioni della matrice A in cui i 
+% coefficienti di A non sono nulli
+
+A=4*diag(ones(10,1))-diag(ones(9,1),1)-diag(ones(9,1),-1);
+
+[L, U, P] = lu(A);
+matrixcmp(P, eye(10))
+subplot(1,3,1)
+spy(A)
+title('A')
+subplot(1,3,2)
+spy(L)
+title('L')
+subplot(1,3,3)
+spy(U)
+title('U')
+
+% In questo caso A è "a banda", P è la matrice identità e dunque L e U sono
+% anch'esse a banda
+
+%%
+clc;
+
+B=3*diag(ones(10,1))-2*diag(ones(9,1),1)-2*diag(ones(9,1),-1);
+
+[L, U, P] = lu(B);
+matrixcmp(P, eye(10))
+subplot(1,3,1)
+spy(B)
+title('A')
+subplot(1,3,2)
+spy(L)
+title('L')
+subplot(1,3,3)
+spy(U)
+title('U')
+
+% In quest caso B è a banda, ma P non è identità e dunque L ed U non sono a
+% banda
+
+%%
+clc;
+
+C=2*diag(ones(10,1));
+C(1:end, 1) = 0.1;
+C(1, 1:end) = 0.1;
+
+C
+
+[L, U, P] = lu(C);
+matrixcmp(P, eye(10))
+subplot(1,3,1)
+spy(C)
+title('A')
+subplot(1,3,2)
+spy(L)
+title('L')
+subplot(1,3,3)
+spy(U)
+title('U')
+
+% In questo caso C non è a banda, P è identità ma comunque L ed U non sono a
+% banda (sono addirittura piene)
+
+%%
+clc;
+
+
+D=diag(ones(7,1));
+D(1:end, end) = 1;
+D(end, 1:end) = (2:8);
+
+D
+
+[L, U, P] = lu(D);
+matrixcmp(P, eye(7))
+subplot(1,3,1)
+spy(D)
+title('A')
+subplot(1,3,2)
+spy(L)
+title('L')
+subplot(1,3,3)
+spy(U)
+title('U')
+
+% In questo caso C non è a banda, P non è identità ed L ed U non sono a
+% banda (sono addirittura piene)
+
+
+%% CHOLESKY
+clc;
+
+A = [1 -1 0;
+    -1 5 6;
+    0 6 10]
+
+issymmetric(A)
+R = chol(A)
+
+% A è tale per cui A=R'R
+% Posso usare questa fattorizzazione per risolvere un sistema lineare in A
+% Ax = b ---> R'Rx=b dunque risolvo R'y=b e poi Rx = y
+
+b = [3; 1; 1];
+
+x1 = A \ b
+
+y = R' \ b;
+x = R \ y
+
 %%
 function iseq = matrixcmp(X, Y)
     iseq = all(all(abs(X - Y) < 1e-12));
